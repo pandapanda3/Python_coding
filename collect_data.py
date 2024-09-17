@@ -19,13 +19,6 @@ def get_data(stocksTicker, multiplier, timespan, date_from, date_to):
     else:
         print(f"There is some issues for gettign the data: {stocksTicker}: {response.status_code}")
         return None
-   
-# save the data, download the json
-# def save_data(stocksTicker, data):
-#     filename = f"{stocksTicker}_data.json"
-#     with open(filename, 'w') as f:
-#         json.dump(data, f)
-#     print(f"Data saved to {filename}")
 
 def save_data(stocksTicker, data):
     # define folder
@@ -48,7 +41,9 @@ def save_data(stocksTicker, data):
 if __name__ == '__main__':
     basic_url = "https://api.polygon.io/v2/aggs/ticker/{stocksTicker}/range/{multiplier}/{timespan}/{date_from}/{date_to}?apiKey={API_KEY}"
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read('../secret/config.ini')
+    print("Current working directory:", os.getcwd())
+    print("Script directory:", os.path.dirname(os.path.abspath(__file__)))
 
     API_KEY = config['polygon']['api_key']
 
