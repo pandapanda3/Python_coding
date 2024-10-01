@@ -127,6 +127,31 @@ def article_views(views: pd.DataFrame) -> pd.DataFrame:
     result_df = pd.DataFrame({'id': df})
     return result_df
 
+def fix_names(users: pd.DataFrame) -> pd.DataFrame:
+    users['name'] = users['name'].str.capitalize()
+    df = users.sort_values(by = 'user_id', ascending = True)
+    return df
+
+
+def find_patients(patients: pd.DataFrame) -> pd.DataFrame:
+    # \b : Contain full words
+    patients_with_diabetes = patients[patients['conditions'].str.contains(r'\bDIAB1')]
+    
+    # Select only the required columns
+    result_df = patients_with_diabetes[['patient_id', 'patient_name', 'conditions']]
+    
+    return result_df
+
+
+def valid_emails(users: pd.DataFrame) -> pd.DataFrame:
+    # (\? com): This is an optional match.
+    # This substring can occur at most once (0 or 1)
+    
+    valid_emails_df = users[users['mail'].str.match(r'^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\?com)?\.com$')]
+    
+    return valid_emails_df
+
+
 if __name__ == '__main__':
     # student_data = [[1,15,'ROSA'],[2,11,'jack'],[3,11,'peggy'],[4,20,'panda']]
     # student_df=createDataframe(student_data)
