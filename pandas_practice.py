@@ -142,6 +142,11 @@ def find_patients(patients: pd.DataFrame) -> pd.DataFrame:
     
     return result_df
 
+def total_time(employees: pd.DataFrame) -> pd.DataFrame:
+    employees['total_time'] = employees['out_time'] - employees['in_time']
+    df = employees[['event_day','emp_id', 'total_time']]
+    df.columns = ['day', 'emp_id','total_time']
+    return df.groupby(['day','emp_id']).sum().reset_index()
 
 def valid_emails(users: pd.DataFrame) -> pd.DataFrame:
     # (\? com): This is an optional match.
@@ -150,6 +155,16 @@ def valid_emails(users: pd.DataFrame) -> pd.DataFrame:
     valid_emails_df = users[users['mail'].str.match(r'^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\?com)?\.com$')]
     
     return valid_emails_df
+
+def delete_duplicate_emails(person: pd.DataFrame) -> None:
+    person.sort_values(by = 'id', ascending=True,inplace=True)
+    person.drop_duplicates(subset='email',keep='first',inplace=True)
+
+
+def game_analysis(activity: pd.DataFrame) -> pd.DataFrame:
+    activity = activity.sort_values(by=['player_id', 'event_date'], ascending=[True, True])
+    activity = activity.drop_duplicates(subset='player_id', keep='first')
+    return activity[['player_id', 'event_date']].rename(columns={'event_date': 'first_login'})
 
 
 if __name__ == '__main__':
