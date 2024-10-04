@@ -1,4 +1,4 @@
-# 1493. Longest Subarray of 1's After Deleting One Element
+# Leetcode 75: 1493. Longest Subarray of 1's After Deleting One Element
 from typing import List
 
 
